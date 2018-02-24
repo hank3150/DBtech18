@@ -14,8 +14,11 @@ SimpleEstimator::SimpleEstimator(std::shared_ptr<SimpleGraph> &g){
 void SimpleEstimator::prepare() {
 
     // do your prep here
-    std::cout << "\nPREPARE!" << graph->adj.data()<< std::endl;
-
+    //std::cout << "\nPREPARE!" << graph->adj[1].size()<< std::endl;
+    for (int i=0;i<graph->adj.size();i++)
+    {
+        std::cout << "\nPREPARE!" << graph->adj[i].data()<< std::endl;
+    }
 }
 
 cardStat SimpleEstimator::estimate(RPQTree *q) {
