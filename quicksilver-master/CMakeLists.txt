@@ -27,6 +27,6 @@ set(SOURCE_FILES
         src/SimpleGraph.cpp
         src/SimpleEstimator.cpp
         src/SimpleEvaluator.cpp
-        include/Pair.h include/Preparation.h)
+        )
 
 add_executable(quicksilver ${SOURCE_FILES} ${HEADER_FILES})
