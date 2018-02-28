@@ -18,17 +18,17 @@ SimpleEstimator::SimpleEstimator(std::shared_ptr<SimpleGraph> &g){
     graph = g;
 }
 
-std::vector< std::vector<uint32_t> > list0;
-std::vector< std::vector<uint32_t> > list1;
-std::vector< std::vector<uint32_t> > list2;
-std::vector< std::vector<uint32_t> > list3;
+std::map< uint32_t, std::vector<uint32_t> > map0;
+std::map< uint32_t, std::vector<uint32_t> > map1;
+std::map< uint32_t, std::vector<uint32_t> > map2;
+std::map< uint32_t, std::vector<uint32_t> > map3;
 
 void SimpleEstimator::prepare() {
 
     // do your prep here
 
-    //execute prepare() once
-    if(list0.size()==0) {
+    //to execute prepare() once
+    if(map0.size()==0) {
 
         for (int i = 0; i < graph->adj.size(); i++) {
             //look only in the adj list, rev doubles list
@@ -40,62 +40,48 @@ void SimpleEstimator::prepare() {
                 uint32_t edge = graph->adj[i].data()[j].first;
                 uint32_t to = graph->adj[i].data()[j].second;
 
+                //use to update for each data point in dictionary
+                std::vector<uint32_t> list;
+
                 switch (edge) {
                     case 0:
-                        list0.resize(j+1);
-                        list0[j].emplace_back(to);
+                        //check if in map
+                        if(map0.find(j+1)==map0.end())
+                        {
+                            list.emplace_back(to);
+                            map0.insert(std::pair<uint32_t, std::vector<uint32_t>>(j+1, list));
+                        }else {
+                            map0[j+1].emplace_back(to);
+                        }
                     case 1:
-
-                        list1.resize(j+1);
-                        list1[j].emplace_back(to);
+                        //check if in map
+                        if(map1.find(j+1)==map1.end())
+                        {
+                            list.emplace_back(to);
+                            map1.insert(std::pair<uint32_t, std::vector<uint32_t>>(j+1, list));
+                        }else {
+                            map1[j+1].emplace_back(to);
+                        }
                     case 2:
-
-                        list2.resize(j+1);
-                        list2[j].emplace_back(to);
+                        //check if in map
+                        if(map2.find(j+1)==map2.end())
+                        {
+                            list.emplace_back(to);
+                            map2.insert(std::pair<uint32_t, std::vector<uint32_t>>(j+1, list));
+                        }else {
+                            map2[j+1].emplace_back(to);
+                        }
                     case 3:
-
-                        list3.resize(j+1);
-                        list3[j].emplace_back(to);
+                        //check if in map
+                        if(map3.find(j+1)==map3.end()) {
+                            list.emplace_back(to);
+                            map3.insert(std::pair<uint32_t, std::vector<uint32_t>>(j+1, list));
+                        }else {
+                            map3[j+1].emplace_back(to);
+                        }
                 }
             }
         }
-
-//tests
-//        for (int i = 0; i < list0.size(); i++) {
-//            std::cout << "\nSize " << list0[i].size() << std::endl;
-//
-//            for (int j = 0; j < list0[i].size(); j++) {
-//                std::cout << "\nFrom " << j+1 << " to " << list0[i][j] << std::endl;
-//
-//            }
-//        }
-
-//        for (int i = 0; i < list1.size(); i++) {
-//            std::cout << "\nSize " << list1[i].size() << std::endl;
-//
-//            for (int j = 0; j < list1[i].size(); j++) {
-//                std::cout << "\nFrom " << j+1 << " to " << list1[i][j] << std::endl;
-//
-//            }
-//        }
-
-//        for (int i = 0; i < list2.size(); i++) {
-//            std::cout << "\nSize " << list2[i].size() << std::endl;
-//
-//            for (int j = 0; j < list2[i].size(); j++) {
-//                std::cout << "\nFrom " << j+1 << " to " << list2[i][j] << std::endl;
-//
-//            }
-//        }
-
-//        for (int i = 0; i < list3.size(); i++) {
-//            std::cout << "\nSize " << list3[i].size() << std::endl;
-//
-//            for (int j = 0; j < list3[i].size(); j++) {
-//                std::cout << "\nFrom " << j+1 << " to " << list3[i][j] << std::endl;
-//
-//            }
-//        }
     }
 
 }
@@ -104,7 +90,10 @@ cardStat SimpleEstimator::estimate(RPQTree *q) {
 
     // perform your estimation here;
 
-    return cardStat {0, 0, 0};
+    RPQTree current = *q;
+
+
+    return cardStat {nullptr, nullptr, nullptr};
 }
 
 
