@@ -19,6 +19,9 @@ public:
     void prepare() override ;
     cardStat estimate(RPQTree *q) override ;
 
+    std::shared_ptr<SimpleGraph> estimate_aux(RPQTree *q);
+    static void calculate(uint32_t label, bool inverse);
+
 };
 
 
